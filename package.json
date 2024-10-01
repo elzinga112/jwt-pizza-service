@@ -4,11 +4,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cd src && node index.js"
+    "start": "cd src && node index.js",
+    "lint": "eslint ."
   },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "eslint": "^9.11.1",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.7"
