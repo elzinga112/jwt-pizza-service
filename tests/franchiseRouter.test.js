@@ -27,7 +27,8 @@ describe('FranchiseRouter', () => {
 
   test('create franchise', async () => {
     console.log(admin);
-    const createFranchiseRes = await request(app).post('/api/franchise').set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json').send({"name": "pizzaPocket1", "admins": [{"email": admin.email}]});
+    Number.random
+    const createFranchiseRes = await request(app).post('/api/franchise').set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json').send({"name": `pizzaPocket${Math.random()}${Math.random()}`, "admins": [{"email": admin.email}]});
     console.log(createFranchiseRes.body);
     console.log(createFranchiseRes.status);
     
