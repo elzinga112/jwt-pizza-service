@@ -1,5 +1,6 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import pluginJest from "eslint-plugin-jest"; // Import Jest plugin
 
 export default [
   {
@@ -15,6 +16,16 @@ export default [
   },
   {
     languageOptions: { globals: globals.node },
+    rules: {
+      "no-unused-vars": "warn",
+    },
+  },
+  {
+    files: ["**/*.test.js"],
+    languageOptions: { globals: { ...globals.node, ...globals.jest } },
+    plugins: {
+      jest: pluginJest
+    },
     rules: {
       "no-unused-vars": "warn",
     },

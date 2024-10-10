@@ -7,8 +7,6 @@ describe('FranchiseRouter', () => {
   let admin;
   let userId;
 
-  const testUser = { name: 'pizza diner', email: 'reg@test.com', password: 'a' };
-
   beforeAll(async () => {
     admin = await createAdminUser();
     const loginRes = await request(app).put('/api/auth').send(admin);
