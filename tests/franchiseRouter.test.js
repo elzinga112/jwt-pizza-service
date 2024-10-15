@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../src/service.js');
-const { createAdminUser, randomName, randomNumber, generateFranchiseeUser, registerUser, loginUser } = require('./testUtils.js');
+const { createAdminUser, randomName, generateFranchiseeUser, registerUser, loginUser } = require('./testUtils.js');
 
 describe('FranchiseRouter', () => {
   let adminToken;
@@ -38,8 +38,8 @@ describe('FranchiseRouter', () => {
   };
   
   test('get all franchise', async () => {
-    const admins = [{"email": admin.email}]
-    const name = `pizza${Math.random()}${Math.random()}`
+    const admins = [{"email": admin.email}];
+    const name = `pizza${Math.random()}${Math.random()}`;
     await createFranchise(name, admins);
     const getFranchiseRes = await request(app).get('/api/franchise').set('Authorization', `Bearer ${adminToken}`);
     expect(getFranchiseRes.status).toBe(200);
@@ -47,8 +47,8 @@ describe('FranchiseRouter', () => {
   });
 
   test('add a franchise, then get a user franchises', async () => {
-    const admins = [{"email": admin.email}]
-    const name = `pizza${Math.random()}${Math.random()}`
+    const admins = [{"email": admin.email}];
+    const name = `pizza${Math.random()}${Math.random()}`;
     await createFranchise(name, admins);
     const getFranchiseRes = await request(app).get(`/api/franchise/${adminUserId}`).set('Authorization', `Bearer ${adminToken}`);
     expect(getFranchiseRes.status).toBe(200);
@@ -56,16 +56,16 @@ describe('FranchiseRouter', () => {
   });
 
   test('create franchise', async () => {
-    const admins = [{"email": admin.email}]
-    const name = `pizza${Math.random()}${Math.random()}`
+    const admins = [{"email": admin.email}];
+    const name = `pizza${Math.random()}${Math.random()}`;
     const createFranchiseRes = await createFranchise(name, admins);
     expect(createFranchiseRes.status).toBe(200);
     expect(createFranchiseRes.body.admins.find(admin => admin.email === admins[0].email)).toBeTruthy();
   });
 
   test('successfully delete franchise', async () => {
-    const admins = [{"email": admin.email}]
-    const name = `pizza${Math.random()}${Math.random()}`
+    const admins = [{"email": admin.email}];
+    const name = `pizza${Math.random()}${Math.random()}`;
     await createFranchise(name, admins);
     const deleteFranchiseRes = await request(app).delete(`/api/franchise/${adminUserId}`).set('Authorization', `Bearer ${adminToken}`);
     expect(deleteFranchiseRes.status).toBe(200);
@@ -73,8 +73,8 @@ describe('FranchiseRouter', () => {
   });
 
   test('successfully create store with franchisee', async () => {
-    const admins = [{"email": franchiseeUser.email}]
-    const franchiseName = `pizza${Math.random()}${Math.random()}`
+    const admins = [{"email": franchiseeUser.email}];
+    const franchiseName = `pizza${Math.random()}${Math.random()}`;
     const createFranchiseRes = await createFranchise(franchiseName, admins);
     const franchiseId = createFranchiseRes.body.id;
 
@@ -86,8 +86,8 @@ describe('FranchiseRouter', () => {
   });
 
   test('successfully delete store with franchisee', async () => {
-    const admins = [{"email": admin.email}]
-    const franchiseName = `pizza${Math.random()}${Math.random()}`
+    const admins = [{"email": admin.email}];
+    const franchiseName = `pizza${Math.random()}${Math.random()}`;
     const createFranchiseRes = await createFranchise(franchiseName, admins);
     const franchiseId = createFranchiseRes.body.id;
 

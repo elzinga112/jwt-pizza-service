@@ -20,7 +20,7 @@ async function createAdminUser() {
 }
 
 function generateDinerUser() {
-    let user = { password: 'secretuser', roles: [{ role: Role.Diner }] };
+    const user = { password: 'secretuser', roles: [{ role: Role.Diner }] };
     user.name = randomName();
     user.email = user.name + '@diner.com';
   
@@ -28,7 +28,7 @@ function generateDinerUser() {
 }
 
 function generateFranchiseeUser() {
-    let user = { password: 'secretuser', roles: [{ role: Role.Franchisee }] };
+    const user = { password: 'secretuser', roles: [{ role: Role.Franchisee }] };
     user.name = randomName();
     user.email = user.name + '@franchisee.com';
   
