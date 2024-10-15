@@ -17,9 +17,7 @@ beforeAll(async () => {
 });
 
 test('login', async () => {
-  console.log(testDiner);
-  const registerRes = await registerUser(testDiner);
-  console.log(registerRes.body);
+  await registerUser(testDiner);
   const loginRes = await request(app).put('/api/auth').send(testDiner);
   expect(loginRes.status).toBe(200);
   expect(loginRes.body.token).toMatch(/^[a-zA-Z0-9\-_]*\.[a-zA-Z0-9\-_]*\.[a-zA-Z0-9\-_]*$/);
