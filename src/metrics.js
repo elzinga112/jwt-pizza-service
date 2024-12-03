@@ -16,6 +16,7 @@ class Metrics {
     pizzaOrders = 0;
     revenue = 0;
     creationFailed = 0;
+    metrics = new MetricBuilder();
 
     constructor() {
       this.incrementRequest = this.incrementRequest.bind(this);
@@ -78,7 +79,6 @@ class Metrics {
     sendMetricsPeriodically(period) {
         const timer = setInterval(() => {
         try {
-            const metrics = new MetricBuilder();
             metrics.addMetric('cpu', "total", "total", this.getCpuUsagePercentage());
             metrics.addMetric('memory', "total", "total", this.getMemoryUsagePercentage());
 
@@ -132,7 +132,7 @@ class Metrics {
               this.totalAuthSuccess++;
               this.currentUsers++;
             }
-            else if (res.statusCode === 401) {
+            else {
               this.totalAuthFailure++;
             }
           }
@@ -146,7 +146,7 @@ class Metrics {
         const startTime = Date.now();
         res.on('finish', () => {
           const duration = Date.now() - startTime;
-          this.sendMetricToGrafana('Pizza Latency', req.method, 'latency', duration);
+          metrics.addMetric('latency', req.url, 'latency', duration);
           if(res.statusCode === 200) {
             if(req.body.items) {
               const items = req.body.items;
