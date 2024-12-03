@@ -1,5 +1,5 @@
 const os = require('os');
-const config = require('./config.json');
+const config = require('./config.js');
 const MetricBuilder = require('./metricBuilder.js');
 
 const PERIOD = 1000;
