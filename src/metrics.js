@@ -18,7 +18,16 @@ class Metrics {
     creationFailed = 0;
 
     constructor() {
-        this.sendMetricsPeriodically(PERIOD);
+      this.incrementRequest = this.incrementRequest.bind(this);
+      this.getCpuUsagePercentage = this.getCpuUsagePercentage.bind(this);
+      this.getMemoryUsagePercentage = this.getMemoryUsagePercentage.bind(this);
+      this.sendMetricsPeriodically = this.sendMetricsPeriodically.bind(this);
+      this.sendMetricToGrafana = this.sendMetricToGrafana.bind(this);
+      this.handleAuthRequest = this.handleAuthRequest.bind(this);
+      this.handleOrderRequest = this.handleOrderRequest.bind(this);
+      this.requestTracker = this.requestTracker.bind(this);
+
+      this.sendMetricsPeriodically(PERIOD);
     }
 
     requestTracker(req, res, next) {
@@ -139,10 +148,12 @@ class Metrics {
           const duration = Date.now() - startTime;
           this.sendMetricToGrafana('Pizza Latency', req.method, 'latency', duration);
           if(res.statusCode === 200) {
-            const order = req.body.order;
-            for (const item of order.items) {
-              this.pizzaOrders++;
-              this.revenue += item.price;
+            if(req.body.items) {
+              const items = req.body.items;
+              for (const item of items) {
+                this.pizzaOrders++;
+                this.revenue += item.price;
+            }
           }
         }
         else { 
