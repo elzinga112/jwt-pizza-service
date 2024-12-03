@@ -130,7 +130,6 @@ class Metrics {
           else if(req.method === 'DELETE' && res.statusCode === 200) {
             this.currentUsers--;
           }
-          next();
         });
       }
 
@@ -149,7 +148,6 @@ class Metrics {
         else { 
           this.creationFailed++;
         }
-        next();
       });
     }
 }
