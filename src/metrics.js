@@ -97,7 +97,7 @@ class Metrics {
             this.metrics.addMetric('revenue', 'revenue', 'total', this.revenue);
             this.metrics.addMetric('order', 'failed', 'total', this.creationFailed);
 
-            for(const metric of metrics.build()) {
+            for(const metric of this.metrics.build()) {
               this.sendMetricToGrafana(metric);
             }
         } catch (error) {
