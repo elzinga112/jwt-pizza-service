@@ -32,9 +32,6 @@ class Metrics {
         if(req.url === '/api/order') {
           this.handleOrderRequest(req, res);
         }
-
-        res.on('finish', () => {
-        });
         next();
     }
 
@@ -70,7 +67,7 @@ class Metrics {
     }
       
     sendMetricsPeriodically(period) {
-        setInterval(() => {
+        const timer = setInterval(() => {
         try {
             const metrics = new MetricBuilder();
             metrics.addMetric('cpu', "", "total", this.getCpuUsagePercentage());
@@ -98,6 +95,7 @@ class Metrics {
             console.log('Error sending metrics', error);
         }
         }, period);
+        timer.unref();
     }
 
     sendMetricToGrafana(metric) {    
@@ -132,6 +130,7 @@ class Metrics {
           else if(req.method === 'DELETE' && res.statusCode === 200) {
             this.currentUsers--;
           }
+          next();
         });
       }
 
@@ -150,6 +149,7 @@ class Metrics {
         else { 
           this.creationFailed++;
         }
+        next();
       });
     }
 }
