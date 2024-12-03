@@ -79,23 +79,23 @@ class Metrics {
     sendMetricsPeriodically(period) {
         const timer = setInterval(() => {
         try {
-            metrics.addMetric('cpu', "total", "total", this.getCpuUsagePercentage());
-            metrics.addMetric('memory', "total", "total", this.getMemoryUsagePercentage());
+            this.metrics.addMetric('cpu', "total", "total", this.getCpuUsagePercentage());
+            this.metrics.addMetric('memory', "total", "total", this.getMemoryUsagePercentage());
 
-            metrics.addMetric('request', 'all', 'total', this.totalRequests);
-            metrics.addMetric('request', 'get', 'total', this.totalGetRequests);
-            metrics.addMetric('request', 'post', 'total', this.totalPostRequests);
-            metrics.addMetric('request', 'put', 'total', this.totalPutRequests);
-            metrics.addMetric('request', 'delete', 'total', this.totalDeleteRequests);
+            this.metrics.addMetric('request', 'all', 'total', this.totalRequests);
+            this.metrics.addMetric('request', 'get', 'total', this.totalGetRequests);
+            this.metrics.addMetric('request', 'post', 'total', this.totalPostRequests);
+            this.metrics.addMetric('request', 'put', 'total', this.totalPutRequests);
+            this.metrics.addMetric('request', 'delete', 'total', this.totalDeleteRequests);
 
-            metrics.addMetric('activeUsers','current', 'total', this.currentUsers);
+            this.metrics.addMetric('activeUsers','current', 'total', this.currentUsers);
 
-            metrics.addMetric('auth', 'success', 'total', this.totalAuthSuccess);
-            metrics.addMetric('auth', 'failure', 'total', this.totalAuthFailure);
+            this.metrics.addMetric('auth', 'success', 'total', this.totalAuthSuccess);
+            this.metrics.addMetric('auth', 'failure', 'total', this.totalAuthFailure);
 
-            metrics.addMetric('order', 'total', 'total', this.pizzaOrders);
-            metrics.addMetric('revenue', 'revenue', 'total', this.revenue);
-            metrics.addMetric('order', 'failed', 'total', this.creationFailed);
+            this.metrics.addMetric('order', 'total', 'total', this.pizzaOrders);
+            this.metrics.addMetric('revenue', 'revenue', 'total', this.revenue);
+            this.metrics.addMetric('order', 'failed', 'total', this.creationFailed);
 
             for(const metric of metrics.build()) {
               this.sendMetricToGrafana(metric);
@@ -146,7 +146,7 @@ class Metrics {
         const startTime = Date.now();
         res.on('finish', () => {
           const duration = Date.now() - startTime;
-          metrics.addMetric('latency', req.url, 'latency', duration);
+          this.metrics.addMetric('latency', req.url, 'latency', duration);
           if(res.statusCode === 200) {
             if(req.body.items) {
               const items = req.body.items;
