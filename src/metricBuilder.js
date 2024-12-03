@@ -1,6 +1,6 @@
 const config = require('./config.json');
 
-export class MetricBuilder {
+class MetricBuilder {
 
   constructor() {
     this.metrics = [];
@@ -15,3 +15,6 @@ export class MetricBuilder {
     return this.metrics;
   }
 }
+
+const metricBuilder = new MetricBuilder();
+module.exports = metricBuilder;

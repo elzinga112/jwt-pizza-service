@@ -1,5 +1,6 @@
 const os = require('os');
 const config = require('./config.json');
+const MetricBuilder = require('./metricBuilder.js');
 
 const PERIOD = 1000;
 
@@ -21,7 +22,6 @@ class Metrics {
     }
 
     requestTracker(req, res, next) {
-        const start = Date.now();
         const method = req.method;
         this.incrementRequest(method);
 
@@ -34,10 +34,6 @@ class Metrics {
         }
 
         res.on('finish', () => {
-            const duration = Date.now() - start;
-            const buf = new MetricBuilder();
-            buf.addHttpMetric(req, res, duration);
-            this.sendMetricToGrafana(buf.toString('\n'));
         });
         next();
     }
@@ -74,7 +70,7 @@ class Metrics {
     }
       
     sendMetricsPeriodically(period) {
-        const timer = setInterval(() => {
+        setInterval(() => {
         try {
             const metrics = new MetricBuilder();
             metrics.addMetric('cpu', "", "total", this.getCpuUsagePercentage());
@@ -157,8 +153,6 @@ class Metrics {
       });
     }
 }
-
-
 
 const metrics = new Metrics();
 module.exports = metrics;
