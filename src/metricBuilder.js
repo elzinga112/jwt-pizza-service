@@ -7,7 +7,7 @@ class MetricBuilder {
   }
 
   addMetric(metricPrefix, httpMethod, metricName, metricValue) {
-    const metric = `${metricPrefix},source=${config.source},method=${httpMethod} ${metricName}=${metricValue}`;
+    const metric = `${metricPrefix},source=${config.metrics.source},method=${httpMethod} ${metricName}=${metricValue}`;
     this.metrics.push(metric);
   }
 
@@ -16,5 +16,4 @@ class MetricBuilder {
   }
 }
 
-const metricBuilder = new MetricBuilder();
-module.exports = metricBuilder;
+module.exports = MetricBuilder;
