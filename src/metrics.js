@@ -2,7 +2,7 @@ const os = require('os');
 const config = require('./config.js');
 const MetricBuilder = require('./metricBuilder.js');
 
-const PERIOD = 1000;
+const PERIOD = 5000;
 
 class Metrics {
     totalRequests = 0;
@@ -79,8 +79,8 @@ class Metrics {
         const timer = setInterval(() => {
         try {
             const metrics = new MetricBuilder();
-            metrics.addMetric('cpu', "", "total", this.getCpuUsagePercentage());
-            metrics.addMetric('memory', "", "total", this.getMemoryUsagePercentage());
+            metrics.addMetric('cpu', "total", "total", this.getCpuUsagePercentage());
+            metrics.addMetric('memory', "total", "total", this.getMemoryUsagePercentage());
 
             metrics.addMetric('request', 'all', 'total', this.totalRequests);
             metrics.addMetric('request', 'get', 'total', this.totalGetRequests);
