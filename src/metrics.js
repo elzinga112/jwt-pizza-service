@@ -2,7 +2,7 @@ const os = require('os');
 const config = require('./config.js');
 const MetricBuilder = require('./metricBuilder.js');
 
-const PERIOD = 5000;
+const PERIOD = 20000;
 
 class Metrics {
     totalRequests = 0;
@@ -96,10 +96,7 @@ class Metrics {
             this.metrics.addMetric('order', 'total', 'total', this.pizzaOrders);
             this.metrics.addMetric('revenue', 'revenue', 'total', this.revenue);
             this.metrics.addMetric('order', 'failed', 'total', this.creationFailed);
-
-            for(const metric of this.metrics.build()) {
-              this.sendMetricToGrafana(metric);
-            }
+            this.sendMetricToGrafana(this.metrics.build().join('\n'));
         } catch (error) {
             console.log('Error sending metrics', error);
         }
@@ -115,12 +112,13 @@ class Metrics {
         })
           .then((response) => {
             if (!response.ok) {
-              console.error('Failed to push metrics data to Grafana');
+              console.error('Failed to push metrics data to Grafana:', response.statusText);
             } else {
               console.log(`Pushed ${metric}`);
             }
           })
           .catch((error) => {
+            console.error('Failed to push metrics data to Grafana:', response.statusText);
             console.error('Error pushing metrics:', error);
           });
       }
@@ -163,7 +161,8 @@ class Metrics {
         const startTime = Date.now();
         res.on('finish', () => {
           const duration = Date.now() - startTime;
-          this.metrics.addMetric('latency', req.url.replace(/\//g, ''), 'latency', duration);
+          const key = req.originalUrl.replace(/\//g, '') + req.method;
+          this.metrics.addMetric('latency', key, 'latency', duration);
         });
     }
 }
