@@ -34,7 +34,7 @@ class Metrics {
     requestTracker(req, res, next) {
         const method = req.method;
         this.incrementRequest(method);
-
+        this.handleLatency(req, res);
         if(req.url === '/api/auth') {
           this.handleAuthRequest(req, res);
         }
@@ -143,10 +143,7 @@ class Metrics {
       }
 
       handleOrderRequest(req, res) {
-        const startTime = Date.now();
         res.on('finish', () => {
-          const duration = Date.now() - startTime;
-          this.metrics.addMetric('latency', req.url, 'latency', duration);
           if(res.statusCode === 200) {
             if(req.body.items) {
               const items = req.body.items;
@@ -160,6 +157,14 @@ class Metrics {
           this.creationFailed++;
         }
       });
+    }
+
+    handleLatency(req, res) {
+        const startTime = Date.now();
+        res.on('finish', () => {
+          const duration = Date.now() - startTime;
+          this.metrics.addMetric('latency', req.url.replace(/\//g, ''), 'latency', duration);
+        });
     }
 }
 
