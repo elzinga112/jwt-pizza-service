@@ -82,11 +82,11 @@ class Metrics {
             this.metrics.addMetric('cpu', "total", "total", this.getCpuUsagePercentage());
             this.metrics.addMetric('memory', "total", "total", this.getMemoryUsagePercentage());
 
-            this.metrics.addMetric('request', 'all', 'total', this.totalRequests);
-            this.metrics.addMetric('request', 'get', 'total', this.totalGetRequests);
-            this.metrics.addMetric('request', 'post', 'total', this.totalPostRequests);
-            this.metrics.addMetric('request', 'put', 'total', this.totalPutRequests);
-            this.metrics.addMetric('request', 'delete', 'total', this.totalDeleteRequests);
+            this.metrics.addMetric('requests', 'all', 'total', this.totalRequests);
+            this.metrics.addMetric('requests', 'get', 'total', this.totalGetRequests);
+            this.metrics.addMetric('requests', 'post', 'total', this.totalPostRequests);
+            this.metrics.addMetric('requests', 'put', 'total', this.totalPutRequests);
+            this.metrics.addMetric('requests', 'delete', 'total', this.totalDeleteRequests);
 
             this.metrics.addMetric('activeUsers','current', 'total', this.currentUsers);
 
