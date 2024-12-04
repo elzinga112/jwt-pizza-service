@@ -32,9 +32,11 @@ class Metrics {
     }
 
     requestTracker(req, res, next) {
-        const method = req.method;
-        this.incrementRequest(method);
-        this.handleLatency(req, res);
+        if(req.url === '/api') {
+          const method = req.method;
+          this.incrementRequest(method);
+          this.handleLatency(req, res);
+        }
         if(req.url === '/api/auth') {
           this.handleAuthRequest(req, res);
         }
