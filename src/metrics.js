@@ -96,7 +96,9 @@ class Metrics {
             this.metrics.addMetric('order', 'total', 'total', this.pizzaOrders);
             this.metrics.addMetric('revenue', 'revenue', 'total', this.revenue);
             this.metrics.addMetric('order', 'failed', 'total', this.creationFailed);
-            this.sendMetricToGrafana(this.metrics.build().join('\n'));
+            for (const metric of this.metrics.build()) {
+                this.sendMetricToGrafana(metric);
+            }
         } catch (error) {
             console.log('Error sending metrics', error);
         }
@@ -104,7 +106,7 @@ class Metrics {
         timer.unref();
     }
 
-    sendMetricToGrafana(metric) {    
+    sendMetricToGrafana(metric) {  
         fetch(`${config.metrics.url}`, {
           method: 'post',
           body: metric,
@@ -135,6 +137,9 @@ class Metrics {
           }
           else if(req.method === 'DELETE' && res.statusCode === 200) {
             this.currentUsers--;
+            if(this.currentUsers < 0) {
+              this.currentUsers = 0;
+            }
           }
         });
       }
