@@ -169,6 +169,7 @@ class Metrics {
           const duration = Date.now() - startTime;
           const key = req.originalUrl.replace(/\//g, '') + req.method;
           this.metrics.addMetric('latency', key, 'latency', duration);
+          this.metrics.addMetric('latency', 'all', 'latency', duration);
         });
     }
 }
